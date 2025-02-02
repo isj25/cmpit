@@ -19,7 +19,9 @@ app.post('/api/get/store', async (req, res) => {
         const zeptoStoreId = await fetchZeptoStoreId(latitude, longitude);
 
         const swiggyResponse = await fetchSwiggySearchResults(swiggyStoreId, query);
-        res.json(swiggyResponse);
+        res.json({
+            swiggy : swiggyResponse
+        })
     } catch (error) {
         logger.error('Error fetching store data', { error });
         res.status(500).json({ error: 'Internal Server Error' });

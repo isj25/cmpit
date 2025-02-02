@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import '../css/Home.css';
 import Search from './Search';
+import SwiggyContainer from '../utils/SwiggyContainer';
 
 function Home() {
-    const [searchResults, setSearchResults] = useState([]);
+    const [searchResults, setSearchResults] = useState({});
     const [location, setLocation] = useState(null);
-
     useEffect(() => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
@@ -34,11 +34,11 @@ function Home() {
             <p>because it is your money</p>
             <Search onSearchResults={handleSearchResults} location={location} />
             <div className="results-container">
-                {/* {searchResults.map((result, index) => (
-                    <div key={index} className="result-item">
-                        {result}
-                    </div>
-                ))} */}
+            {searchResults.swiggy && searchResults.swiggy.data && searchResults.swiggy.data.widgets[0] &&
+                    searchResults.swiggy.data.widgets[0].data.map((item, index) => (
+                        <SwiggyContainer key={index} data={item} />
+                    ))
+                }
             </div>
         </div>
     );
