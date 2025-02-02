@@ -28,5 +28,5 @@ export const fetchStoreData = async (query,latitude, longitude) => {
 
 export const fetchSearchResults = async (query, location) => {
     const result = await fetchStoreData(query,location.latitude, location.longitude);
-    console.log(result);
+    return result;
 }

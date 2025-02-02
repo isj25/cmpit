@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import '../css/Home.css';
 import Search from './Search';
+import Container from '../utils/Container';
 
 function Home() {
-    const [searchResults, setSearchResults] = useState([]);
+    const [searchResults, setSearchResults] = useState({});
     const [location, setLocation] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
-                    //console.log(position);
                     const { latitude, longitude } = position.coords;
                     setLocation({ latitude, longitude });
                 },
@@ -23,6 +24,11 @@ function Home() {
 
     const handleSearchResults = (results) => {
         setSearchResults(results);
+        setLoading(false); // Set loading to false when results are set
+    };
+
+    const handleSearchInitiated = () => {
+        setLoading(true); // Set loading to true when search is initiated
     };
 
     return (
@@ -32,13 +38,15 @@ function Home() {
             </div>
             <h1>Compare it freely</h1>
             <p>because it is your money</p>
-            <Search onSearchResults={handleSearchResults} location={location} />
+            {!location && <p>Please set your location to get better results.</p>}
+            <Search onSearchResults={handleSearchResults} onSearchInitiated={handleSearchInitiated} location={location} />
             <div className="results-container">
-                {/* {searchResults.map((result, index) => (
-                    <div key={index} className="result-item">
-                        {result}
-                    </div>
-                ))} */}
+                {loading && <div className="loader">Loading...</div>}
+                {!loading && searchResults.swiggy && Array.isArray(searchResults.swiggy) &&
+                    searchResults.swiggy.map((item, index) => (
+                        <Container key={`swiggy-${index}`} data={item} />
+                    ))
+                }
             </div>
         </div>
     );

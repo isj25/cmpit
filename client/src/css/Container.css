@@ -1,0 +1,54 @@
+.card {
+    position: relative;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin: 1rem;
+    width: 200px; /* Adjust the width as needed */
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.card-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.card-content {
+    padding: 10px;
+}
+
+.card-prices {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.card-mrp {
+    text-decoration: line-through;
+    color: #888;
+}
+
+.card-offer-price {
+    color: green;
+    font-weight: bold;
+}
+
+.card-title {
+    font-size: 1.2em;
+    margin: 0;
+}
+
+.brand-image {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 60px; /* Adjust the size as needed */
+    height: auto;
+    border-radius: 50%;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
