@@ -1,0 +1,17 @@
+{
+    "name": "cmp",
+    "version": "1.0.0",
+    "private": true,
+    "workspaces": [
+      "client",
+      "backend"
+    ],
+    "scripts": {
+      "start:client": "npm start --workspace client",
+      "start:backend": "npm start --workspace backend",
+      "start": "concurrently \"npm run start:client\" \"npm run start:backend\""
+    },
+    "devDependencies": {
+      "concurrently": "^7.0.0"
+    }
+  }

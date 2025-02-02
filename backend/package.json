@@ -1,0 +1,19 @@
+{
+    "name": "backend",
+    "version": "1.0.0",
+    "private": true,
+    "main": "server.js",
+    "dependencies": {
+        "cors": "^2.8.5",
+        "dotenv": "^16.4.7",
+        "express": "^4.17.1",
+        "node-fetch": "^2.6.1",
+        "winston": "^3.17.0"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.15"
+    },
+    "scripts": {
+        "start": "nodemon server.js"
+    }
+}
