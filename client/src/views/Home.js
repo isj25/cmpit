@@ -6,6 +6,7 @@ import Container from '../utils/Container';
 function Home() {
     const [searchResults, setSearchResults] = useState({});
     const [location, setLocation] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         if (navigator.geolocation) {
@@ -23,6 +24,11 @@ function Home() {
 
     const handleSearchResults = (results) => {
         setSearchResults(results);
+        setLoading(false); // Set loading to false when results are set
+    };
+
+    const handleSearchInitiated = () => {
+        setLoading(true); // Set loading to true when search is initiated
     };
 
     return (
@@ -33,17 +39,12 @@ function Home() {
             <h1>Compare it freely</h1>
             <p>because it is your money</p>
             {!location && <p>Please set your location to get better results.</p>}
-            <Search onSearchResults={handleSearchResults} location={location} />
+            <Search onSearchResults={handleSearchResults} onSearchInitiated={handleSearchInitiated} location={location} />
             <div className="results-container">
-                {searchResults.swiggy && Array.isArray(searchResults.swiggy) &&
+                {loading && <div className="loader">Loading...</div>}
+                {!loading && searchResults.swiggy && Array.isArray(searchResults.swiggy) &&
                     searchResults.swiggy.map((item, index) => (
-                        <Container key={'swiggy'+index} data={item} />
-                    ))
-                }
-
-                {searchResults.swiggy && Array.isArray(searchResults.swiggy) &&
-                    searchResults.swiggy.map((item, index) => (
-                        <Container key={'zepto'+index} data={item} />
+                        <Container key={`swiggy-${index}`} data={item} />
                     ))
                 }
             </div>

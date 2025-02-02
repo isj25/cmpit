@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import '../css/Search.css';
 import { fetchSearchResults } from '../utils/API';
 
-const Search = ({onSearchResults,location}) => {
+const Search = ({ onSearchResults, onSearchInitiated, location }) => {
     const [query, setQuery] = useState('');
 
     const handleInputChange = (event) => {
@@ -11,7 +11,8 @@ const Search = ({onSearchResults,location}) => {
 
     const handleSearch = async () => {
         try {
-            const results = await fetchSearchResults(query,location);
+            onSearchInitiated();
+            const results = await fetchSearchResults(query, location);
             onSearchResults(results);
             // Handle the results as needed
         } catch (error) {
@@ -32,5 +33,7 @@ const Search = ({onSearchResults,location}) => {
         </div>
     );
 };
+
+
 
 export default Search;
