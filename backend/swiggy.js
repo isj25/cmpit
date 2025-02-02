@@ -45,6 +45,31 @@ const fetchSwiggyStoreId = async (latitude, longitude) => {
     }
 };
 
+
+const processRequiredData = (data) => {
+  const widgets = data.data ? data.data.widgets[0].data : [];
+  const response = [];
+  for(const widget of widgets) {
+    const variations = widget.variations;
+    for(const variation of variations ) {
+        let item = {}
+        let price = variation.price;
+        item.mrp = price.mrp;
+        item.offer_price = price.offer_price;
+        item.title = widget.display_name;
+        item.image = `https://media-assets.swiggy.com/swiggy/image/upload/${variation.images[0]}`;
+        item.brand = 'https://img-cdn.thepublive.com/fit-in/1200x675/smstreet/media/media_files/b8hxDcPQWP4Gh1u0XvvW.jpg';
+        response.push(item);
+    }
+  }
+  //console.log(response)
+  if (response.length > 10) {
+    return response.slice(0, 10);
+  }
+  return response;
+}
+
+
 const fetchSwiggySearchResults = async (storeId, query) => {
     const url = `${swiggySearchApiUrl}?limit=40&pageType=INSTAMART_AUTO_SUGGEST_PAGE&storeId=${storeId}&primaryStoreId=${storeId}&query=${query}`;
     const headers = {
@@ -84,7 +109,7 @@ const fetchSwiggySearchResults = async (storeId, query) => {
         const responseText = await response.text();
         // logger.info(`Swiggy search results: ${responseText}`);
         const data = JSON.parse(responseText);
-        return data;
+        return processRequiredData(data);
     } catch (error) {
         logger.error(`Error fetching Swiggy search results: ${error}`);
         throw error;
