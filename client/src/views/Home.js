@@ -40,13 +40,24 @@ function Home() {
             <p>because it is your money</p>
             {!location && <p>Please set your location to get better results.</p>}
             <Search onSearchResults={handleSearchResults} onSearchInitiated={handleSearchInitiated} location={location} />
-            <div className="results-container">
-                {loading && <div className="loader">Loading...</div>}
-                {!loading && searchResults.swiggy && Array.isArray(searchResults.swiggy) &&
-                    searchResults.swiggy.map((item, index) => (
-                        <Container key={`swiggy-${index}`} data={item} />
-                    ))
-                }
+            {loading && <div className="loader">Loading...</div>}
+            <div className="results-wrapper">
+            
+                <div className="results-container">
+                    
+                    {!loading && searchResults.swiggy && Array.isArray(searchResults.swiggy.value) &&
+                        searchResults.swiggy.value.map((item, index) => (
+                            <Container key={`swiggy-${index}`} data={item} />
+                        ))
+                    }
+                </div>
+                <div className="results-container">
+                    {!loading && searchResults.bigbasket && Array.isArray(searchResults.bigbasket.value) &&
+                        searchResults.bigbasket.value.map((item, index) => (
+                            <Container key={`bb-${index}`} data={item} />
+                        ))
+                    }
+                </div>
             </div>
         </div>
     );

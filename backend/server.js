@@ -1,7 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const { fetchSwiggyStoreId, fetchSwiggySearchResults } = require('./swiggy');
-const { fetchZeptoStoreId } = require('./zepto');
+// const { fetchZeptoStoreId,fetchZeptoStoreItems } = require('./zepto');
+const {fetchBigBasketProducts} = require('./bigbasket');
 const logger = require('./logger');
 
 const app = express();
@@ -16,12 +17,19 @@ app.post('/api/get/store', async (req, res) => {
 
     try {
         const swiggyStoreId = await fetchSwiggyStoreId(latitude, longitude);
-        const zeptoStoreId = await fetchZeptoStoreId(latitude, longitude);
+        //const zeptoStoreId = await fetchZeptoStoreId(latitude, longitude);
 
-        const swiggyResponse = await fetchSwiggySearchResults(swiggyStoreId, query);
-        res.json({
-            swiggy : swiggyResponse
-        })
+
+        const [swiggyResult, bigbasketResult] = await Promise.allSettled([
+            fetchSwiggySearchResults(swiggyStoreId, query),
+            fetchBigBasketProducts(query)
+        ]);
+
+        response = {
+            swiggy : swiggyResult,
+            bigbasket :  bigbasketResult
+        }
+        res.json(response)
     } catch (error) {
         logger.error('Error fetching store data', { error });
         res.status(500).json({ error: 'Internal Server Error' });

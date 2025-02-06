@@ -20,6 +20,12 @@ const Search = ({ onSearchResults, onSearchInitiated, location }) => {
         }
     };
 
+    const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            handleSearch();
+        }
+    };
+
     return (
         <div className="search-container">
             <input
@@ -27,6 +33,7 @@ const Search = ({ onSearchResults, onSearchInitiated, location }) => {
                 value={query}
                 onChange={handleInputChange}
                 placeholder="Search..."
+                onKeyPress={handleKeyPress}
                 className="search-input"
             />
             <button onClick={handleSearch} className="search-button">Search</button>
