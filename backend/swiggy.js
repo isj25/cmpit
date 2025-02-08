@@ -57,6 +57,7 @@ const processRequiredData = (data) => {
         item.mrp = price.mrp;
         item.offer_price = price.offer_price;
         item.title = widget.display_name;
+        item.quantity = variation.quantity
         item.image = `https://media-assets.swiggy.com/swiggy/image/upload/${variation.images[0]}`;
         item.brand = 'https://img-cdn.thepublive.com/fit-in/1200x675/smstreet/media/media_files/b8hxDcPQWP4Gh1u0XvvW.jpg';
         response.push(item);
@@ -105,7 +106,7 @@ const fetchSwiggySearchResults = async (storeId, query) => {
         }
 
     
-        logger.info(`Swiggy search results returned ${response.status}}`);
+        logger.info(`Swiggy search results returned ${response.status}`);
         const responseText = await response.text();
         // logger.info(`Swiggy search results: ${responseText}`);
         const data = JSON.parse(responseText);

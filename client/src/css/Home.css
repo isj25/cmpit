@@ -1,7 +1,7 @@
 .container {
-    margin: auto;
-    padding: 20px;
-    max-width: 80%;
+    margin: 1rem;
+    padding: 10px;
+    max-width: 100%;
     text-align: center;
     border: 1px solid #ccc;
     border-radius: 8px;
@@ -32,9 +32,9 @@
     color: #721c24;
 }
 
-.results-container {
+/* .results-container {
     margin-top: 20px;
-}
+} */
 
 .result-item {
     padding: 10px;
@@ -46,4 +46,17 @@
     color: #555;
     text-align: center;
     margin-top: 20px;
+}
+
+.results-wrapper {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+     /* Adjust as needed */
+}
+
+.results-container {
+    flex: 0 0 auto;
+    margin: 0 3px; /* Adjust as needed */
+    box-sizing: border-box;
 }

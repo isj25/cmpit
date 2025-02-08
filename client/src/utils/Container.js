@@ -3,8 +3,11 @@ import PropTypes from 'prop-types';
 import '../css/Container.css'; // Updated CSS import
 
 const Container = ({ data }) => {
-    const { image, mrp, offer_price, title, brand } = data;
-
+    console.log(data);
+    const { image, mrp, offer_price, title, brand,quantity } = data;
+    if (!image || !mrp || !offer_price || !title || !brand || !quantity) {
+        return null;
+    }
     return (
         <div className="card">
             <img src={image} alt={title} className="card-image" />
@@ -14,6 +17,7 @@ const Container = ({ data }) => {
                     <span className="card-offer-price">₹{offer_price}</span>
                 </div>
                 <h2 className="card-title">{title}</h2>
+                <p className="quantity">{quantity}</p>
             </div>
             <img src={brand} alt="Brand" className="brand-image" />
         </div>
@@ -27,6 +31,7 @@ Container.propTypes = {
         offer_price: PropTypes.number.isRequired,
         title: PropTypes.string.isRequired,
         brand: PropTypes.string.isRequired,
+        quantity: PropTypes.string.isRequired,
     }).isRequired,
 };
 
