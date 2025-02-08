@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const { fetchSwiggyStoreId, fetchSwiggySearchResults } = require('./swiggy');
-// const { fetchZeptoStoreId,fetchZeptoStoreItems } = require('./zepto');
+const { fetchZeptoStoreId,fetchZeptoStoreItems } = require('./zepto');
 const {fetchBigBasketProducts} = require('./bigbasket');
 const logger = require('./logger');
 
@@ -17,17 +17,19 @@ app.post('/api/get/store', async (req, res) => {
 
     try {
         const swiggyStoreId = await fetchSwiggyStoreId(latitude, longitude);
-        //const zeptoStoreId = await fetchZeptoStoreId(latitude, longitude);
+        const zeptoStoreId = await fetchZeptoStoreId(latitude, longitude);
 
 
-        const [swiggyResult, bigbasketResult] = await Promise.allSettled([
+        const [swiggyResult, bigbasketResult,zeptoResults] = await Promise.allSettled([
             fetchSwiggySearchResults(swiggyStoreId, query),
-            fetchBigBasketProducts(query)
+            fetchBigBasketProducts(query),
+            fetchZeptoStoreItems(query,zeptoStoreId)
         ]);
 
         response = {
             swiggy : swiggyResult,
-            bigbasket :  bigbasketResult
+            bigbasket :  bigbasketResult,
+            zepto : zeptoResults
         }
         res.json(response)
     } catch (error) {

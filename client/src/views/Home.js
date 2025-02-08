@@ -58,6 +58,13 @@ function Home() {
                         ))
                     }
                 </div>
+                <div className="results-container">
+                    {!loading && searchResults.zepto && Array.isArray(searchResults.zepto.value) &&
+                        searchResults.zepto.value.map((item, index) => (
+                            <Container key={`zepto-${index}`} data={item} />
+                        ))
+                    }
+                </div>
             </div>
         </div>
     );

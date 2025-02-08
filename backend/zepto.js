@@ -6,6 +6,63 @@ dotenv.config();
 
 const zeptoApiUrl = process.env.ZEPTO_API_URL;
 
+const processZeptoStoreItems = (data) => {
+
+    try{
+
+    }catch(error){
+    }
+    let response = [];
+    let layouts = data?.layout
+    let i = 1;
+    for(layout of layouts){
+        if(i===1){
+            i++;
+            continue;
+            
+        }
+        let items = layout?.data?.resolver?.data?.items;
+        items = Array.isArray(items) ? items : [items];
+        for(item of items){
+            let responseItem = {}
+            let productResponse = item?.productResponse
+            responseItem.title = productResponse?.product?.name;
+            responseItem.mrp = productResponse?.mrp /100;
+            responseItem.offer_price = productResponse?.sellingPrice/100;
+            let quantity = productResponse?.productVariant?.packsize;
+            if(quantity){
+               let unit = productResponse?.productVariant?.unitOfMeasure;
+            
+                if(unit){
+                    unit = unit.toLowerCase();
+                }
+
+                quantity = quantity + " " + unit
+                responseItem.quantity = quantity;
+            }
+
+            let images = productResponse?.productVariant?.images;
+            let start = 1;
+            images = Array.isArray(images) ? images : [images];
+            for(image of images){
+                if(start>1){
+                    break;
+                }
+                let path = "https://cdn.zeptonow.com/production/" +image?.path;
+                responseItem.image = path;
+                start++;
+            }
+            responseItem.brand = "https://thehardcopy.co/wp-content/uploads/Zepto-Featured-Image-Option-2.png";
+            response.push(responseItem);
+        }
+
+    }
+    if(response.length >10){
+        return response.slice(0,10);
+    }
+
+    return response;
+}
 
 const fetchZeptoStoreItems = async (query,storeId) => {
     logger.info(`Fetching Zepto store items for query: ${query}, storeId: ${storeId}`);
@@ -48,14 +105,15 @@ const fetchZeptoStoreItems = async (query,storeId) => {
         'x-xsrf-token': 'zjTWD0G4NaUEu2hDxwP_a:olemYsSl887xMnT3IEApvwtktQA.ruQCZxoOOWHCdFfl314RVukaBwDn5zN6S3xW7h9hb6M'
     };
 
-    logger.info(`Zepto headers: ${JSON.stringify(headers)}`);
+    //logger.info(`Zepto headers: ${JSON.stringify(headers)}`);
+    logger.info(`Fetching Zepto store items for query: ${query}, storeId: ${storeId}`);
 
     const body = JSON.stringify({
         query: query,
         pageNumber: 0,
-        intentId : "c3084117-ab0b-4380-bc8c-42d7f872a1bf",
+        intentId: "c3084117-ab0b-4380-bc8c-42d7f872a1bf",
         mode: "AUTOSUGGEST"
-    });
+    }, null, 0);
 
     try {
         const response = await fetch(url, {
@@ -64,16 +122,14 @@ const fetchZeptoStoreItems = async (query,storeId) => {
             body: body
         });
 
-
-        logger.info(`zepto request body: ${body}`);
+        logger.info(`Zepto store items response status: ${response.status}`);
         if (!response.ok) {
             log.error(`Network response was not ok for zepto ${response.status}`);
             throw new Error(`HTTP error! status: ${response.status}`);
         }
 
         const data = await response.json();
-        console.log(data);
-        return data;
+        return processZeptoStoreItems(data);
     } catch (error) {
         logger.error(`Error fetching Zepto store items: ${error}`);
         throw error;

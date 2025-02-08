@@ -5,7 +5,9 @@ import '../css/Container.css'; // Updated CSS import
 const Container = ({ data }) => {
     console.log(data);
     const { image, mrp, offer_price, title, brand,quantity } = data;
-
+    if (!image || !mrp || !offer_price || !title || !brand || !quantity) {
+        return null;
+    }
     return (
         <div className="card">
             <img src={image} alt={title} className="card-image" />
