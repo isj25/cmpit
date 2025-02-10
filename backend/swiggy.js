@@ -64,9 +64,9 @@ const processRequiredData = (data) => {
     }
   }
   //console.log(response)
-  if (response.length > 15) {
-    return response.slice(0, 15);
-  }
+//   if (response.length > 15) {
+//     return response.slice(0, 15);
+//   }
   return response;
 }
 

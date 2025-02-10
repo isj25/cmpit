@@ -1,6 +1,6 @@
 .card {
     position: relative;
-    border: 2px solid #ccc;
+    border: 3px solid #736ef8;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     overflow: hidden;
@@ -8,7 +8,7 @@
     width: 250px; /* Adjust the width as needed */
     text-align: center;
     box-sizing: border-box;
-    background-color: #edf5fa;
+    background-color: #f6f5f1;
     height: 13rem;
     transition: transform 0.3s ease, box-shadow 0.3s ease; 
 }
@@ -58,6 +58,7 @@
     align-items: center;
     gap: 5px;
     margin-bottom: 10px;
+    
 }
 
 .card-mrp {
@@ -74,6 +75,7 @@
 .card-title {
     font-size: 0.7em;
     margin-bottom: 0.2rem;
+    color: #0f0f15;
 }
 
 .brand-image {
@@ -93,6 +95,7 @@
     position: absolute;
     text-align: right;
     font-size: 0.8rem;
-    border: 1px solid hsl(91, 85%, 72%);
-    background-color: hsl(91, 85%, 72%);
+    border: 1px solid hsl(90, 14%, 5%);
+    border-radius: 5px;
+    background-color: hsl(90, 20%, 4%);
 }

@@ -53,15 +53,30 @@ function Home() {
             <div className={`location ${location ? 'location-set' : 'location-unset'}`} onClick={askLocation}>
                 {location ? 'Location Set' : 'Location Unset'}
             </div>
-            <h1>Compare it freely</h1>
-            <p>because it is your money</p>
-            {!location && <p className='location-error'>Please set your location to get results.</p>}
-            <Search onSearchResults={handleSearchResults} onSearchInitiated={handleSearchInitiated} location={location} />
+            <div className="title-description">
+                <h1>Quick commerce, quick savings!!!</h1>
+                <p>Don't let your wallet cry – compare prices before you buy!</p>
+            </div>
+            {!location && (
+                <div className="banner">
+                    <h1>How can I search without location?</h1>
+                    <p>Go to the settings of your browser,search Location and set it to "Allow".</p>
+                    <p>Refresh the page, check the status of location on the top right corner</p>
+                    <h1>Don't let your wallet cry – compare prices before you buy!</h1>
+                </div>
+            )}
+            {
+                location && (<Search onSearchResults={handleSearchResults} onSearchInitiated={handleSearchInitiated} location={location} />)
+            }
+
             {loading && <div className="loader">Loading...</div>}
+            {
+                    !loading && searchResults.swiggy && <h3 className='top-deals'>T O P  -  D E A LS</h3>
+            }
             <div className="results-wrapper">
-            
+                
                 <div className="results-container">
-                    
+
                     {!loading && searchResults.swiggy && Array.isArray(searchResults.swiggy.value) &&
                         searchResults.swiggy.value.map((item, index) => (
                             <Container key={`swiggy-${index}`} data={item} />
@@ -83,6 +98,24 @@ function Home() {
                     }
                 </div>
             </div>
+
+            {
+                    !loading &&searchResults.others && <h3 className='top-deals'>C A T C H Y - D E A L S</h3>
+            }
+            {
+                 searchResults.others && (
+                    <div className="horizontal-container">
+                        {!loading && searchResults.others && Array.isArray(searchResults.others) &&
+                            searchResults.others.map((item, index) => (
+                                <div className="container-item" key={`others-${index}`}>
+                                    <Container data={item} />
+                                </div>
+                            ))
+                        }
+                    </div>
+                )
+            }
+
         </div>
     );
 }

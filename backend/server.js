@@ -41,12 +41,60 @@ app.post('/api/get/store', async (req, res) => {
             bigbasket :  bigbasketResult,
             zepto : zeptoResults
         }
+
+        processResponse(response);
         res.json(response)
     } catch (error) {
         logger.error(`[${requestTracker}] Error fetching store data, ${ error }`);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+
+const processResponse = (response) => {
+    const sortItems = (items) => {
+        if (items && items.value && Array.isArray(items.value)) {
+            items.value.sort((a, b) => {
+                const priceA = a.offer_price || Infinity;
+                const priceB = b.offer_price || Infinity;
+                return priceA - priceB;
+            });
+        }
+    };
+
+    const limitItems = (items,limit) => {
+        if (items && items.value && Array.isArray(items.value)) {
+            const limitedItems = items.value.slice(0, limit);
+            const remainingItems = items.value.slice(limit);
+            items.value = limitedItems;
+            return remainingItems;
+        }
+        return [];
+    };
+
+    const shuffleArray = (array) => {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    };
+    sortItems(response.swiggy);
+    sortItems(response.bigbasket);
+    sortItems(response.zepto);
+
+    const minItems = Math.min(
+        response.swiggy.value.length,
+        response.bigbasket.value.length,
+        response.zepto.value.length,
+        Number(process.env.MINIMUM_ITEMS)
+    );
+    response.others = [
+        ...limitItems(response.swiggy,minItems),
+        ...limitItems(response.bigbasket,minItems),
+        ...limitItems(response.zepto,minItems)
+    ];
+
+    shuffleArray(response.others);
+}
 
 // Error handling middleware
 app.use((err, req, res, next) => {

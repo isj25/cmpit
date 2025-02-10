@@ -52,9 +52,9 @@ const fetchBigBasketProducts = async (query) => {
         }
 
         // logger.info(`BigBasket response: ${JSON.stringify(respose)}`);
-        if(responseArray.length > 15) {
-            return responseArray.slice(0, 15);
-        }
+        // if(responseArray.length > 15) {
+        //     return responseArray.slice(0, 15);
+        // }
         return responseArray;
     } catch (error) {
         logger.error('Error fetching BigBasket products:', error);
