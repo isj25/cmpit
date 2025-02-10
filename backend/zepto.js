@@ -8,10 +8,6 @@ const zeptoApiUrl = process.env.ZEPTO_API_URL;
 
 const processZeptoStoreItems = (data) => {
 
-    try{
-
-    }catch(error){
-    }
     let response = [];
     let layouts = data?.layout
     let i = 1;
@@ -57,8 +53,8 @@ const processZeptoStoreItems = (data) => {
         }
 
     }
-    if(response.length >10){
-        return response.slice(0,10);
+    if(response.length >15){
+        return response.slice(0,15);
     }
 
     return response;
@@ -105,8 +101,6 @@ const fetchZeptoStoreItems = async (query,storeId) => {
         'x-xsrf-token': 'zjTWD0G4NaUEu2hDxwP_a:olemYsSl887xMnT3IEApvwtktQA.ruQCZxoOOWHCdFfl314RVukaBwDn5zN6S3xW7h9hb6M'
     };
 
-    //logger.info(`Zepto headers: ${JSON.stringify(headers)}`);
-    logger.info(`Fetching Zepto store items for query: ${query}, storeId: ${storeId}`);
 
     const body = JSON.stringify({
         query: query,

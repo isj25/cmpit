@@ -1,3 +1,14 @@
+const generateRandomString = () => {
+    length = 20;
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+};
+
 export const fetchStoreData = async (query,latitude, longitude) => {
     const url = 'http://localhost:5001/api/get/store';
     const body = JSON.stringify({
@@ -10,7 +21,8 @@ export const fetchStoreData = async (query,latitude, longitude) => {
         const response = await fetch(url, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'request-tracker' : generateRandomString()
             },
             body: body
         });

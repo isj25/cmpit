@@ -22,6 +22,23 @@ function Home() {
         }
     }, []);
 
+    const askLocation = () => {
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const { latitude, longitude } = position.coords;
+                    setLocation({ latitude, longitude });
+                },
+                (error) => {
+                    console.error('Error getting location:', error);
+                }
+            );
+        } else {
+            console.error('Geolocation is not supported by this browser.');
+        }
+    }
+
     const handleSearchResults = (results) => {
         setSearchResults(results);
         setLoading(false); // Set loading to false when results are set
@@ -33,12 +50,12 @@ function Home() {
 
     return (
         <div className="container">
-            <div className={`location ${location ? 'location-set' : 'location-unset'}`}>
+            <div className={`location ${location ? 'location-set' : 'location-unset'}`} onClick={askLocation}>
                 {location ? 'Location Set' : 'Location Unset'}
             </div>
             <h1>Compare it freely</h1>
             <p>because it is your money</p>
-            {!location && <p>Please set your location to get better results.</p>}
+            {!location && <p className='location-error'>Please set your location to get results.</p>}
             <Search onSearchResults={handleSearchResults} onSearchInitiated={handleSearchInitiated} location={location} />
             {loading && <div className="loader">Loading...</div>}
             <div className="results-wrapper">

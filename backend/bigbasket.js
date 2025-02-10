@@ -52,8 +52,8 @@ const fetchBigBasketProducts = async (query) => {
         }
 
         // logger.info(`BigBasket response: ${JSON.stringify(respose)}`);
-        if(responseArray.length > 10) {
-            return responseArray.slice(0, 10);
+        if(responseArray.length > 15) {
+            return responseArray.slice(0, 15);
         }
         return responseArray;
     } catch (error) {

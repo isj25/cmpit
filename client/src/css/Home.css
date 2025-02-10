@@ -60,3 +60,9 @@
     margin: 0 3px; /* Adjust as needed */
     box-sizing: border-box;
 }
+
+.location-error{
+    color: red;
+    font-size: 1.2em;
+    margin-top: 20px;
+}

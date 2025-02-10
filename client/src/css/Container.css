@@ -13,6 +13,30 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease; 
 }
 
+@media (min-width: 576px) {
+    .card {
+        max-width: 300px;
+    }
+}
+
+@media (min-width: 768px) {
+    .card {
+        max-width: 350px;
+    }
+}
+
+@media (min-width: 992px) {
+    .card {
+        max-width: 400px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .card {
+        max-width: 450px;
+    }
+}
+
 .card:hover {
     transform: translateY(-3px); /* Move up on hover */
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
